@@ -48,6 +48,8 @@ import jp.qualitas.nyartoolkit.java3d.utils.raspberrypi.NyARSingleMarkerBehavior
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.ds.v4l4j.V4l4jDriver;
 import com.sun.j3d.utils.geometry.ColorCube;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 public class NyARJava3Dfx extends Application implements
 		NyARSingleMarkerBehaviorListener {
@@ -64,10 +66,14 @@ public class NyARJava3Dfx extends Application implements
 		// .addEmbeddedLibraryResourceRoot("com/github/sarxos/webcam/ds/buildin/lib/");
 		// org.bridj.BridJ.register();
 	}
-	private final String CARCODE_FILE = "/data/patt.hiro";
+	//private final String CARCODE_FILE = "/data/patt.hiro";
+        //
+        private final String CARCODE_FILE = "C:/Users/IOL/Documents/Maestría/Para la Tesis/realidad aumentada/NyARToolkit/NyARToolkit.RaspberryPI.sample/src/main/resources/data/patt.hiro";
+        
 
-	private final String PARAM_FILE = "/data/camera_para4.dat";
+	private final String PARAM_FILE = "C:/Users/IOL/Documents/Maestría/Para la Tesis/realidad aumentada/NyARToolkit/NyARToolkit.RaspberryPI.sample/src/main/resources/data/camera_para4.dat";
 
+        private final String DIR = "file:///C:/Users/IOL/Documents/Maestría/Para la Tesis/realidad aumentada/NyARToolkit/NyARToolkit.RaspberryPI.sample/src/main/resources/";
 	// NyARToolkit関係
 	private NyARSingleMarkerBehaviorHolder nya_behavior;
 
@@ -195,10 +201,16 @@ public class NyARJava3Dfx extends Application implements
 		this.showWindow();
 
 		// //NyARToolkitの準備
-		NyARCode ar_code = NyARCode.createFromARPattFile(this.getClass()
-				.getResourceAsStream(CARCODE_FILE), 16, 16);
-		ar_param = J3dNyARParam.loadARParamFile(this.getClass()
-				.getResourceAsStream(PARAM_FILE));
+                //InputStream
+                InputStream i_stream = new FileInputStream(CARCODE_FILE);
+		NyARCode ar_code = NyARCode.createFromARPattFile(i_stream, 16, 16);
+//                NyARCode ar_code = NyARCode.createFromARPattFile(this.getClass()
+//				.getResourceAsStream(CARCODE_FILE), 16, 16);
+                
+                InputStream i_stream2 = new FileInputStream(PARAM_FILE);
+                ar_param = J3dNyARParam.loadARParamFile(i_stream2);
+//		ar_param = J3dNyARParam.loadARParamFile(this.getClass()
+//				.getResourceAsStream(PARAM_FILE));
 		ar_param.changeScreenSize(320, 240);
 
 		// NyARToolkitのBehaviorを作る。(マーカーサイズはメートルで指定すること)
@@ -240,45 +252,45 @@ public class NyARJava3Dfx extends Application implements
 
 	private List<String> hiragana_a = new ArrayList<String>() {
 		{
-			add("hiragana_01_a.png");
+			add(DIR+"hiragana_01_a.png");
 		}
 	};;
 	private List<String> hikouki = new ArrayList<String>() {
 		{
-			add("hiragana_47_hi.png");
-			add("hiragana_15_ko.png");
-			add("hiragana_03_u.png");
-			add("hiragana_12_ki.png");
+			add(DIR+"hiragana_47_hi.png");
+			add(DIR+"hiragana_15_ko.png");
+			add(DIR+"hiragana_03_u.png");
+			add(DIR+"hiragana_12_ki.png");
 		}
 	};
 	private List<String> katakana = new ArrayList<String>() {
 		{
-			add("katakana/katakana_01_a.png");
-			add("katakana/katakana_02_i.png");
-			add("katakana/katakana_03_u.png");
-			add("katakana/katakana_05_o.png");
-			add("katakana/katakana_06_a2.png");
-			add("katakana/katakana_08_vu.png");
-			add("katakana/katakana_10_o2.png");
-			add("katakana/katakana_11_ka.png");
-			add("katakana/katakana_12_ki.png");
-			add("katakana/katakana_13_ku.png");
-			add("katakana/katakana_15_ko.png");
-			add("katakana/katakana_18_gu.png");
-			add("katakana/katakana_21_sa.png");
-			add("katakana/katakana_22_shi.png");
-			add("katakana/katakana_24_se.png");
-			add("katakana/katakana_25_so.png");
-			add("katakana/katakana_28_zu.png");
-			add("katakana/katakana_29_ze.png");
-			add("katakana/katakana_30_zo.png");
-			add("katakana/katakana_31_ta.png");
-			add("katakana/katakana_32_ti.png");
-			add("katakana/katakana_33_tsu.png");
-			add("katakana/katakana_34_te.png");
-			add("katakana/katakana_35_to.png");
-			add("katakana/katakana_36_da.png");
-			add("katakana/katakana_37_di.png");
+			add(DIR+"katakana/katakana_01_a.png");
+			add(DIR+"katakana/katakana_02_i.png");
+			add(DIR+"katakana/katakana_03_u.png");
+			add(DIR+"katakana/katakana_05_o.png");
+			add(DIR+"katakana/katakana_06_a2.png");
+			add(DIR+"katakana/katakana_08_vu.png");
+			add(DIR+"katakana/katakana_10_o2.png");
+			add(DIR+"katakana/katakana_11_ka.png");
+			add(DIR+"katakana/katakana_12_ki.png");
+			add(DIR+"katakana/katakana_13_ku.png");
+			add(DIR+"katakana/katakana_15_ko.png");
+			add(DIR+"katakana/katakana_18_gu.png");
+			add(DIR+"katakana/katakana_21_sa.png");
+			add(DIR+"katakana/katakana_22_shi.png");
+			add(DIR+"katakana/katakana_24_se.png");
+			add(DIR+"katakana/katakana_25_so.png");
+			add(DIR+"katakana/katakana_28_zu.png");
+			add(DIR+"katakana/katakana_29_ze.png");
+			add(DIR+"katakana/katakana_30_zo.png");
+			add(DIR+"katakana/katakana_31_ta.png");
+			add(DIR+"katakana/katakana_32_ti.png");
+			add(DIR+"katakana/katakana_33_tsu.png");
+			add(DIR+"katakana/katakana_34_te.png");
+			add(DIR+"katakana/katakana_35_to.png");
+			add(DIR+"katakana/katakana_36_da.png");
+			add(DIR+"katakana/katakana_37_di.png");
 		}
 	};
 	private boolean playing = false;
@@ -348,6 +360,9 @@ public class NyARJava3Dfx extends Application implements
 		playing = true;
 		Image hiraganaImage = new Image(hiraganaImageName);
 		final ImageView hiragana = new ImageView(hiraganaImage);
+                
+                System.out.println("llego?");
+                        
 		hiragana.setScaleX(1.2);
 		hiragana.setScaleY(1.2);
 
@@ -452,8 +467,9 @@ public class NyARJava3Dfx extends Application implements
 				currentAnimationCount--;
 			}
 		});
-
+                System.out.println("transition.play();");
 		transition.play();
+                  System.out.println("fin transition.play();");
 	}
 
 	/**

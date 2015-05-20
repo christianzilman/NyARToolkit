@@ -27,6 +27,9 @@ import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.ds.fswebcam.FsWebcamDriver;
 import com.sun.j3d.utils.geometry.ColorCube;
 import com.sun.j3d.utils.universe.SimpleUniverse;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class NyARJava3DSample implements NyARSingleMarkerBehaviorListener {
     // set capture driver for fswebcam tool
@@ -53,16 +56,16 @@ public class NyARJava3DSample implements NyARSingleMarkerBehaviorListener {
 	{
 		/*
 		 * TODO:Please write your behavior operation code here.
-		 * マーカーの姿勢を元に他の３Dオブジェクトを操作するときは、ここに処理を書きます。*/
+		 * マーカー�?�姿勢を元�?�他�?�３Dオブジェクトを�?作�?�る�?��??�?��?�?��?��?�処�?�を書�??�?��?�。*/
 
 	}
 
 	public void startCapture() throws Exception
 	{
-		// キャプチャ開始
+		// キャプ�?ャ開始
 		nya_behavior.start();
 		
-		//localeの作成とlocateとviewの設定
+		//locale�?�作�?�?�locate�?�view�?�設定
 		universe = new VirtualUniverse();
 		//universe = new SimpleUniverse();
 		locale = new Locale(universe);
@@ -77,13 +80,13 @@ public class NyARJava3DSample implements NyARSingleMarkerBehaviorListener {
 		view.setPhysicalBody(new PhysicalBody());
 		view.setPhysicalEnvironment(new PhysicalEnvironment());
 
-		//視界の設定(カメラ設定から取得)
+		//視界�?�設定(カメラ設定�?�ら�?�得)
 		Transform3D camera_3d = ar_param.getCameraTransform();
 		view.setCompatibilityModeEnable(true);
 		view.setProjectionPolicy(View.PERSPECTIVE_PROJECTION);
 		view.setLeftProjection(camera_3d);
 
-		//視点設定(0,0,0から、Y軸を180度回転してZ+方向を向くようにする。)
+		//視点設定(0,0,0�?�ら�?Y軸を180度回転�?��?�Z+方�?�を�?��??よ�?��?��?�る。)
 		TransformGroup viewGroup = new TransformGroup();
 		Transform3D viewTransform = new Transform3D();
 		viewTransform.rotY(Math.PI);
@@ -95,7 +98,7 @@ public class NyARJava3DSample implements NyARSingleMarkerBehaviorListener {
 		locale.addBranchGraph(viewRoot);
 		//universe.addBranchGraph(viewRoot);
 
-		//バックグラウンドの作成
+		//�?ックグラウンド�?�作�?
 		Background background = new Background();
 		BoundingSphere bounds = new BoundingSphere();
 		bounds.setRadius(10.0);
@@ -105,38 +108,42 @@ public class NyARJava3DSample implements NyARSingleMarkerBehaviorListener {
 		BranchGroup root = new BranchGroup();
 		root.addChild(background);
 
-		//TransformGroupで囲ったシーングラフの作成
+		//TransformGroup�?�囲�?��?�シーングラフ�?�作�?
 		TransformGroup transform = new TransformGroup();
 		transform.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		transform.addChild(createSceneGraph());
 		root.addChild(transform);
 
-		//Behaviorに連動するグループをセット
+		//Behavior�?�連動�?�るグループをセット
 		nya_behavior.setTransformGroup(transform);
 		nya_behavior.setBackGround(background);
 
-		//出来たbehaviorをセット
+		//出�?��?�behaviorをセット
 		root.addChild(nya_behavior.getBehavior());
 		nya_behavior.setUpdateListener(this);
 
 		//universe.getViewingPlatform().setNominalViewingTransform();
 		
-		//表示ブランチをLocateにセット
+		//表示ブラン�?をLocate�?�セット
 		locale.addBranchGraph(root);
 		//universe.addBranchGraph(root);
 
-		//ウインドウの設定
+		//ウインドウ�?�設定
 //		setLayout(new BorderLayout());
 //		add(canvas, BorderLayout.CENTER);
 	}
 	
-	public NyARJava3DSample() throws NyARException {
-//		//NyARToolkitの準備
-		NyARCode ar_code = NyARCode.createFromARPattFile(this.getClass().getResourceAsStream(CARCODE_FILE),16, 16);
-		ar_param = J3dNyARParam.loadARParamFile(this.getClass().getResourceAsStream(PARAM_FILE));
+	public NyARJava3DSample() throws NyARException, FileNotFoundException {
+//		//NyARToolkit�?�準備
+                 InputStream i_stream = new FileInputStream(CARCODE_FILE);
+		//NyARCode ar_code = NyARCode.createFromARPattFile(this.getClass().getResourceAsStream(CARCODE_FILE),16, 16);
+                NyARCode ar_code = NyARCode.createFromARPattFile(i_stream,16, 16);
+		//ar_param = J3dNyARParam.loadARParamFile(this.getClass().getResourceAsStream(PARAM_FILE));
+                InputStream i_stream2 = new FileInputStream(PARAM_FILE);
+                ar_param = J3dNyARParam.loadARParamFile(i_stream2);
 		ar_param.changeScreenSize(320, 240);
 
-		//NyARToolkitのBehaviorを作る。(マーカーサイズはメートルで指定すること)
+		//NyARToolkit�?�Behaviorを作る。(マーカーサイズ�?�メートル�?�指定�?�る�?��?�)
 		nya_behavior = new NyARSingleMarkerBehaviorHolder(ar_param, 30f, ar_code, 0.08);
 		nya_behavior.setWebcapOpenListener(this);
 		nya_behavior.open();
@@ -164,8 +171,8 @@ public class NyARJava3DSample implements NyARSingleMarkerBehaviorListener {
 
 	}
 	/**
-	 * シーングラフを作って、そのノードを返す。
-	 * このノードは40mmの色つき立方体を表示するシーン。ｚ軸を基準に20mm上に浮かせてる。
+	 * シーングラフを作�?��?��?�??�?�ノードを返�?�。
+	 * �?��?�ノード�?�40mm�?�色�?��??立方体を表示�?�るシーン。ｚ軸を基準�?�20mm上�?�浮�?��?��?�る。
 	 * @return
 	 */
 	private Node createSceneGraph()
@@ -173,7 +180,7 @@ public class NyARJava3DSample implements NyARSingleMarkerBehaviorListener {
 		TransformGroup tg = new TransformGroup();
 		Transform3D mt = new Transform3D();
 		mt.setTranslation(new Vector3d(0.00, 0.0, 20 * 0.001));
-		// 大きさ 40mmの色付き立方体を、Z軸上で20mm動かして配置）
+		// 大�??�?� 40mm�?�色付�??立方体を�?Z軸上�?�20mm動�?��?��?��?置）
 		tg.setTransform(mt);
 		tg.addChild(new ColorCube(20 * 0.001));
 		return tg;
